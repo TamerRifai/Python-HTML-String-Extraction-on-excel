@@ -1,0 +1,35 @@
+from bs4 import BeautifulSoup
+
+# Open the HTML file
+
+with open('file.html', 'r', encoding='utf8') as f:
+    html_string = f.read()
+
+# Use BeautifulSoup to parse the HTML string
+soup = BeautifulSoup(html_string, 'html.parser')
+
+# Find all option tags
+option_tags = soup.find_all('option')
+
+# Extract the string between the option tags
+option_strings = [option.string for option in option_tags]
+
+print(option_strings)
+
+import openpyxl
+
+# Extract the strings between the option tags
+# (assuming that the option_strings list has already been defined)
+
+# Create a new workbook
+workbook = openpyxl.Workbook()
+
+# Get the active worksheet
+worksheet = workbook.active
+
+# Iterate over the option strings and write each one to a different row
+for i, option_string in enumerate(option_strings):
+    worksheet.cell(row=i+1, column=1).value = option_string
+
+# Save the workbook
+workbook.save('options.xlsx')
